@@ -7,9 +7,8 @@ $(function () {
   for(i = 0; i < 16; i++) {
     let btn = $(container.children().eq(i).children().eq(2));
     btn.on("click", function() {
-      console.log(btn.prev().val());
       // Checks the value of the clicked save button's corresponding text field and saves the contents in localStorage
-      localStorage.setItem(JSON.stringify(btn.parent().attr("id")), btn.prev().val());
+      localStorage.setItem(btn.parent().attr("id"), btn.prev().val());
     })
   };
   }
@@ -32,10 +31,16 @@ $(function () {
   }
   highlightHour();
 
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-
+  // Gets user input that was saved in localStorage and sets the values of the corresponding textarea elements
+  function displaySaved() {
+    for(i = 0; i < 16; i++) {
+      let textField = $(container.children().eq(i).children().eq(1));
+      let savedItem = localStorage.getItem(container.children().eq(i).attr("id"));
+      textField.val(savedItem);
+    }
+  }
+  displaySaved();
+  
   // Displays the current date in the header of the page.
   let today = dayjs();
   $("#currentDay").text(today.format("dddd, MMMM D, YYYY"));
